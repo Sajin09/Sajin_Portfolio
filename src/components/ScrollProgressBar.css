@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Scroll Progress Bar - Top Viewport Telemetry with Dynamic Theming
+   ========================================================================== */
+
+.scroll-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  background: var(--gradient-theme-horizontal);
+  box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.8), 0 0 4px #ffffff;
+  transition: width 0.08s ease-out;
+  position: relative;
+}
+
+.scroll-progress-glow {
+  position: absolute;
+  right: 0;
+  top: -2px;
+  width: 15px;
+  height: 7px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ffffff, 0 0 20px var(--primary);
+}

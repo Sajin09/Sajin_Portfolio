@@ -1,0 +1,149 @@
+/* ==========================================================================
+   Floating Download Resume Action Button (Fixed Bottom-Right)
+   ========================================================================== */
+
+.floating-resume-wrapper {
+  position: fixed;
+  bottom: 2.25rem;
+  right: 2.25rem;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+}
+
+.floating-resume-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--gradient-theme);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(var(--primary-rgb), 0.7);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.floating-resume-btn:hover {
+  transform: scale(1.12) translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.95), 0 0 35px rgba(var(--primary-rgb), 0.95);
+  border-color: #ffffff;
+}
+
+.floating-resume-btn:active {
+  transform: scale(0.96);
+}
+
+.floating-resume-svg {
+  width: 26px;
+  height: 26px;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.25s ease;
+}
+
+.floating-resume-btn:hover .floating-resume-svg {
+  transform: translateY(2px);
+}
+
+/* Ambient Pulse Rings */
+.floating-pulse-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(var(--primary-rgb), 0.65);
+  animation: pulseResume 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floating-pulse-ring-2 {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--primary-rgb), 0.35);
+  animation: pulseResume 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite 0.9s;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes pulseResume {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+/* Tooltip Slide Out to Left on Hover */
+.floating-resume-tooltip {
+  position: absolute;
+  right: calc(100% + 14px);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(14, 14, 18, 0.92);
+  border: 1.5px solid rgba(var(--primary-rgb), 0.5);
+  padding: 0.45rem 0.95rem;
+  border-radius: 50px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.75);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(10px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-resume-btn:hover .floating-resume-tooltip {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.tooltip-dot {
+  color: var(--primary-light);
+  font-size: 0.75rem;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+.tooltip-text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  .floating-resume-wrapper {
+    bottom: 1.5rem;
+    right: 1.25rem;
+  }
+
+  .floating-resume-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .floating-resume-svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .floating-resume-tooltip {
+    display: none;
+  }
+}

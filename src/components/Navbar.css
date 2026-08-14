@@ -1,0 +1,397 @@
+/* ==========================================================================
+   Capsule Segmented Pill Navbar with Dynamic Theme Switcher on Left
+   ========================================================================== */
+
+.ref-nav-header {
+  position: fixed;
+  top: 1.25rem;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  padding: 0 1.5rem;
+  pointer-events: none;
+  transition: all var(--transition-smooth);
+}
+
+.ref-nav-island {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1320px;
+  transition: all var(--transition-smooth);
+}
+
+/* --------------------------------------------------------------------------
+   Left: 4-Color Theme Switcher Capsule (Replaces SAJIN brand)
+   -------------------------------------------------------------------------- */
+
+.ref-nav-theme-switcher {
+  display: flex;
+  align-items: center;
+  background: rgba(14, 14, 20, 0.82);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  padding: 0.35rem 0.65rem;
+  border-radius: 50px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transition: all var(--transition-fast);
+}
+
+.ref-nav-theme-switcher:hover {
+  border-color: var(--border-accent);
+  background: rgba(20, 20, 28, 0.95);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.65), 0 0 15px rgba(var(--primary-rgb), 0.25);
+}
+
+.nav-theme-swatches {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.nav-theme-dot-btn {
+  background: transparent;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-theme-dot-btn:hover {
+  transform: scale(1.22);
+}
+
+.nav-theme-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+}
+
+.nav-theme-dot-btn.active .nav-theme-dot {
+  border-color: #ffffff;
+  box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.95), 0 0 18px rgba(var(--primary-rgb), 0.65);
+  transform: scale(1.15);
+}
+
+/* --------------------------------------------------------------------------
+   Center: Segmented Capsule Track
+   -------------------------------------------------------------------------- */
+
+.ref-nav-dock {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  padding: 0.32rem 0.45rem;
+  border-radius: 50px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.ref-nav-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.45rem;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  user-select: none;
+}
+
+.ref-nav-text {
+  font-family: var(--font-league), sans-serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  line-height: 1;
+  transition: all 0.25s ease;
+}
+
+.ref-nav-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ref-nav-tab:hover .ref-nav-text {
+  color: #ffffff;
+}
+
+/* ACTIVE TAB (Solid Black Capsule + Theme Gradient Text) */
+.ref-nav-tab.active {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.5rem 1.6rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 0 15px rgba(var(--primary-rgb), 0.3);
+}
+
+.ref-nav-tab.active .ref-nav-text {
+  background: var(--gradient-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 400;
+}
+
+/* --------------------------------------------------------------------------
+   Right: CTA Button
+   -------------------------------------------------------------------------- */
+
+.ref-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ref-nav-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--gradient-theme);
+  color: #ffffff;
+  border: 1px solid var(--primary-light);
+  padding: 0.52rem 1.15rem;
+  border-radius: 50px;
+  font-family: var(--font-league), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.5);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.ref-nav-cta-btn:hover {
+  box-shadow: 0 6px 25px rgba(var(--primary-rgb), 0.85);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.ref-mobile-toggle-btn {
+  display: none;
+  background: rgba(14, 14, 20, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ref-mobile-toggle-btn:hover {
+  background: rgba(var(--primary-rgb), 0.2);
+  border-color: var(--primary);
+}
+
+.theme-primary-icon {
+  color: var(--primary);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Drawer
+   -------------------------------------------------------------------------- */
+
+.ref-mobile-drawer {
+  position: fixed;
+  top: 5rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  pointer-events: auto;
+  z-index: 999;
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ref-mobile-drawer-inner {
+  background: #0c0c12;
+  border: 1.5px solid var(--primary);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(var(--primary-rgb), 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ref-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ref-drawer-title {
+  font-family: var(--font-league), sans-serif;
+  font-size: 1.3rem;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.ref-drawer-beacon {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.ref-mobile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ref-mobile-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.1rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all var(--transition-fast);
+}
+
+.ref-mobile-tab-text {
+  font-family: var(--font-league), sans-serif;
+  font-size: 1.45rem;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+}
+
+.ref-mobile-tab.active {
+  background: #000000;
+  border-color: var(--primary);
+}
+
+.ref-mobile-tab.active .ref-mobile-tab-text {
+  background: var(--gradient-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ref-active-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.15);
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+}
+
+/* Mobile Theme Row */
+.ref-mobile-theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  gap: 0.75rem;
+}
+
+.mobile-theme-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+}
+
+.mobile-theme-swatches {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mobile-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-theme-btn.active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  font-weight: 800;
+}
+
+.ref-drawer-footer {
+  padding-top: 0.5rem;
+}
+
+.ref-mobile-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  background: var(--gradient-theme);
+  color: #ffffff;
+  font-family: var(--font-league), sans-serif;
+  font-size: 1.35rem;
+  text-decoration: none;
+  border: 1px solid var(--primary-light);
+  box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.6);
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 950px) {
+  .ref-nav-dock,
+  .ref-nav-cta-btn {
+    display: none;
+  }
+
+  .ref-mobile-toggle-btn {
+    display: flex;
+  }
+}
+
+@media (max-width: 640px) {
+  .ref-nav-header {
+    top: 0.75rem;
+    padding: 0 0.75rem;
+  }
+}
