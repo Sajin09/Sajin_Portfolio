@@ -12,7 +12,28 @@
   padding: 6.5rem 3vw 0rem;
   position: relative;
   overflow: hidden;
-  border-bottom: 1.5px solid rgba(var(--primary-rgb), 0.45);
+}
+
+/* Radiant Laser Glowing Theme Divider Line (Exact Reference Match) */
+.hero-bottom-divider-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--primary-rgb), 0.35) 4%,
+    var(--primary) 15%,
+    var(--primary-light, var(--primary)) 50%,
+    var(--primary) 85%,
+    rgba(var(--primary-rgb), 0.35) 96%,
+    transparent 100%
+  );
+  box-shadow: 0 0 14px var(--primary), 0 0 28px rgba(var(--primary-rgb), 0.75), 0 0 45px rgba(var(--primary-rgb), 0.4);
+  z-index: 6;
+  pointer-events: none;
 }
 
 /* Sajin Cutout Portrait - Direct Child of hero-section: 100% FLUSH with Bottom Divider Line (Z-Index: 5) */

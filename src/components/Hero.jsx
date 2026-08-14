@@ -148,6 +148,9 @@ export default function Hero() {
         </div>
 
       </div>
+
+      {/* Radiant Glowing Theme Divider Line (Matching Reference Screenshot) */}
+      <div className="hero-bottom-divider-line"></div>
     </section>
   );
 }
