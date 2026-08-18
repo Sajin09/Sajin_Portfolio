@@ -4,7 +4,13 @@ import {
   X, 
   Sparkles, 
   ArrowUpRight,
-  Check
+  Check,
+  Home,
+  User,
+  Code2,
+  Briefcase,
+  Send,
+  ChevronLeft
 } from 'lucide-react';
 import './Navbar.css';
 
@@ -41,12 +47,24 @@ export default function Navbar({ currentTheme = 'red', onThemeChange }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   const navLinks = [
-    { name: 'HOME', href: '#home' },
-    { name: 'ABOUT', href: '#about' },
-    { name: 'SKILLS', href: '#skills' },
-    { name: 'PROJECTS', href: '#projects' },
-    { name: 'CONTACT', href: '#contact' },
+    { name: 'Home', href: '#home', icon: <Home size={18} /> },
+    { name: 'About', href: '#about', icon: <User size={18} /> },
+    { name: 'Skills', href: '#skills', icon: <Code2 size={18} /> },
+    { name: 'Projects', href: '#projects', icon: <Briefcase size={18} /> },
+    { name: 'Contact', href: '#contact', icon: <Send size={18} /> },
   ];
 
   const themeOptions = [
@@ -77,138 +95,174 @@ export default function Navbar({ currentTheme = 'red', onThemeChange }) {
   ];
 
   return (
-    <header className={`ref-nav-header ${isScrolled ? 'nav-scrolled' : ''}`}>
-      <div className="ref-nav-island">
-        
-        {/* Left: 4-Color Theme Switcher Capsule (Replaced SAJIN brand) */}
-        <div className="ref-nav-theme-switcher" title="Select Portfolio Theme Color">
-          <div className="nav-theme-swatches">
-            {themeOptions.map((theme) => {
-              const isActive = currentTheme === theme.id;
-              return (
-                <button
-                  key={theme.id}
-                  type="button"
-                  onClick={() => onThemeChange && onThemeChange(theme.id)}
-                  className={`nav-theme-dot-btn ${isActive ? 'active' : ''}`}
-                  aria-label={`Switch to ${theme.name} theme`}
-                  title={`${theme.name} Theme`}
-                >
-                  <span 
-                    className="nav-theme-dot" 
-                    style={{ background: theme.gradient, borderColor: theme.border }}
-                  >
-                    {isActive && <Check size={8} color="#ffffff" strokeWidth={4} />}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Center: Segmented Capsule Track */}
-        <nav className="ref-nav-dock">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.href.substring(1);
-            return (
-              <a
-                key={link.name}
-                href={link.href}
-                className={`ref-nav-tab ${isActive ? 'active' : ''}`}
-              >
-                <span className="ref-nav-text">{link.name}</span>
-              </a>
-            );
-          })}
-        </nav>
-
-        {/* Right CTA */}
-        <div className="ref-nav-right">
-          <a href="#contact" className="ref-nav-cta-btn">
-            <span>GET IN TOUCH</span>
-            <ArrowUpRight size={15} />
-          </a>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            className="ref-mobile-toggle-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Navigation Menu"
-          >
-            {mobileMenuOpen ? <X size={22} className="theme-primary-icon" /> : <Menu size={22} color="#ffffff" />}
-          </button>
-        </div>
-
-      </div>
-
-      {/* Mobile Menu Drawer */}
-      {mobileMenuOpen && (
-        <div className="ref-mobile-drawer">
-          <div className="ref-mobile-drawer-inner">
-            <div className="ref-drawer-header">
-              <span className="ref-drawer-title">NAVIGATION</span>
-              <span className="ref-drawer-beacon">● LIVE</span>
-            </div>
-            
-            <div className="ref-mobile-nav-list">
-              {navLinks.map((link) => {
-                const isActive = activeSection === link.href.substring(1);
+    <>
+      {/* Floating Island Header (Desktop + Mobile) */}
+      <header className={`ref-nav-header ${isScrolled ? 'nav-scrolled' : ''} ${mobileMenuOpen ? 'drawer-active' : ''}`}>
+        <div className="ref-nav-island">
+          
+          {/* Left: 4-Color Theme Switcher Capsule */}
+          <div className="ref-nav-theme-switcher" title="Select Portfolio Theme Color">
+            <div className="nav-theme-swatches">
+              {themeOptions.map((theme) => {
+                const isActive = currentTheme === theme.id;
                 return (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className={`ref-mobile-tab ${isActive ? 'active' : ''}`}
-                    onClick={() => setMobileMenuOpen(false)}
+                  <button
+                    key={theme.id}
+                    type="button"
+                    onClick={() => onThemeChange && onThemeChange(theme.id)}
+                    className={`nav-theme-dot-btn ${isActive ? 'active' : ''}`}
+                    aria-label={`Switch to ${theme.name} theme`}
+                    title={`${theme.name} Theme`}
                   >
-                    <span className="ref-mobile-tab-text">{link.name}</span>
-                    {isActive && <span className="ref-active-tag">ACTIVE</span>}
-                  </a>
+                    <span 
+                      className="nav-theme-dot" 
+                      style={{ background: theme.gradient, borderColor: theme.border }}
+                    >
+                      {isActive && <Check size={8} color="#ffffff" strokeWidth={4} />}
+                    </span>
+                  </button>
                 );
               })}
             </div>
+          </div>
 
-            {/* Mobile Theme Switcher */}
-            <div className="ref-mobile-theme-row">
-              <span className="mobile-theme-label">COLOR THEME:</span>
-              <div className="mobile-theme-swatches">
-                {themeOptions.map((theme) => {
-                  const isActive = currentTheme === theme.id;
+          {/* Center: Segmented Capsule Track (Desktop only) */}
+          <nav className="ref-nav-dock">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.substring(1);
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className={`ref-nav-tab ${isActive ? 'active' : ''}`}
+                >
+                  <span className="ref-nav-text">{link.name.toUpperCase()}</span>
+                </a>
+              );
+            })}
+          </nav>
+
+          {/* Right CTA & Mobile Toggle */}
+          <div className="ref-nav-right">
+            <a href="#contact" className="ref-nav-cta-btn">
+              <span>GET IN TOUCH</span>
+              <ArrowUpRight size={15} />
+            </a>
+
+            {/* Mobile Menu Toggle Button */}
+            <button
+              className={`ref-mobile-toggle-btn ${mobileMenuOpen ? 'open' : ''}`}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X size={20} color="#ffffff" /> : <Menu size={20} color="#ffffff" />}
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      {/* =========================================================================
+         Frosted Glass Mobile Drawer Menu (Reference Pill UI with Dynamic Theme)
+         ========================================================================= */}
+      {mobileMenuOpen && (
+        <>
+          {/* Ambient Backdrop Blur Overlay */}
+          <div 
+            className="ref-mobile-backdrop" 
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+
+          <aside className="ref-mobile-drawer" aria-label="Mobile Navigation Menu">
+            <div className="ref-mobile-drawer-inner">
+              
+              {/* Top Bar: Brand Embossed Glass Logo + Close Button */}
+              <div className="ref-drawer-top-bar">
+                <div className="ref-drawer-logo-badge">
+                  <span className="ref-drawer-logo-icon">S</span>
+                </div>
+                <div className="ref-drawer-header-meta">
+                  <span className="ref-drawer-brand-name">SAJIN R</span>
+                  <span className="ref-drawer-brand-status">● ONLINE</span>
+                </div>
+                <button 
+                  className="ref-drawer-close-btn"
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Close menu"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+              </div>
+              
+              {/* Navigation Items (White active pill matching reference screenshot) */}
+              <nav className="ref-mobile-nav-list">
+                {navLinks.map((link) => {
+                  const isActive = activeSection === link.href.substring(1);
                   return (
-                    <button
-                      key={theme.id}
-                      type="button"
-                      onClick={() => {
-                        onThemeChange && onThemeChange(theme.id);
-                      }}
-                      className={`mobile-theme-btn ${isActive ? 'active' : ''}`}
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className={`ref-mobile-item ${isActive ? 'active' : ''}`}
+                      onClick={() => setMobileMenuOpen(false)}
                     >
-                      <span 
-                        className="nav-theme-dot" 
-                        style={{ background: theme.gradient, borderColor: theme.border }}
-                      >
-                        {isActive && <Check size={8} color="#ffffff" strokeWidth={4} />}
-                      </span>
-                      <span>{theme.name}</span>
-                    </button>
+                      <span className="ref-item-icon-wrap">{link.icon}</span>
+                      <span className="ref-item-text">{link.name}</span>
+                      {isActive && <span className="ref-item-active-dot"></span>}
+                    </a>
                   );
                 })}
+              </nav>
+
+              {/* Mobile Dynamic Theme Switcher Section */}
+              <div className="ref-mobile-theme-section">
+                <div className="ref-mobile-theme-header">
+                  <span className="mobile-theme-label">THEME PALETTE</span>
+                  <span className="mobile-theme-active-name">{currentTheme.toUpperCase()}</span>
+                </div>
+                <div className="mobile-theme-swatches-grid">
+                  {themeOptions.map((theme) => {
+                    const isActive = currentTheme === theme.id;
+                    return (
+                      <button
+                        key={theme.id}
+                        type="button"
+                        onClick={() => {
+                          onThemeChange && onThemeChange(theme.id);
+                        }}
+                        className={`mobile-theme-tile ${isActive ? 'active' : ''}`}
+                        title={`Select ${theme.name} Theme`}
+                      >
+                        <span 
+                          className="theme-tile-dot" 
+                          style={{ background: theme.gradient, borderColor: theme.border }}
+                        >
+                          {isActive && <Check size={9} color="#ffffff" strokeWidth={3.5} />}
+                        </span>
+                        <span className="theme-tile-name">{theme.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
 
-            <div className="ref-drawer-footer">
-              <a
-                href="#contact"
-                className="ref-mobile-cta"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Sparkles size={16} />
-                <span>LET'S TALK</span>
-              </a>
+              {/* Bottom CTA Button */}
+              <div className="ref-drawer-footer">
+                <a
+                  href="#contact"
+                  className="ref-mobile-cta"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Sparkles size={16} />
+                  <span>Get In Touch</span>
+                  <ArrowUpRight size={16} />
+                </a>
+              </div>
+
             </div>
-          </div>
-        </div>
+          </aside>
+        </>
       )}
-
-    </header>
+    </>
   );
 }

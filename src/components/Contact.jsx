@@ -22,40 +22,68 @@ export default function Contact({ currentTheme = 'red' }) {
     budgetRange: 'Open / Flexible for Discussion',
     message: ''
   });
-  const [copied, setCopied] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleCopyEmail = (e) => {
-    e.preventDefault();
-    navigator.clipboard.writeText('sajin0904@gmail.com');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
-  };
+  const [errorMessage, setErrorMessage] = useState('');
+  const GMAIL_COMPOSE_URL = 'https://mail.google.com/mail/?view=cm&fs=1&to=sajin0904@gmail.com&su=Inquiry%20from%20Portfolio&body=Hi%20Sajin,%0D%0A%0D%0AI%20came%20across%20your%20portfolio...';
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    if (errorMessage) setErrorMessage('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage('');
     
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        inquiryType: 'Full-Time MERN Developer Role',
-        budgetRange: 'Open / Flexible for Discussion',
-        message: ''
+    try {
+      // Send real email directly to sajin0904@gmail.com
+      const response = await fetch('https://formsubmit.co/ajax/sajin0904@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `New Portfolio Inquiry from ${formData.name} (${formData.inquiryType})`,
+          _template: 'table',
+          _captcha: 'false',
+          'Client Name': formData.name,
+          'Client Email': formData.email,
+          'Inquiry / Role Type': formData.inquiryType,
+          'Expected CTC / Budget': formData.budgetRange,
+          'Message Details': formData.message
+        })
       });
-      setTimeout(() => setSubmitted(false), 8000);
-    }, 1000);
+
+      const data = await response.json();
+
+      if (response.ok && data.success !== 'false') {
+        setSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          inquiryType: 'Full-Time MERN Developer Role',
+          budgetRange: 'Open / Flexible for Discussion',
+          message: ''
+        });
+        setTimeout(() => setSubmitted(false), 9000);
+      } else {
+        throw new Error(data.message || 'Submission failed. Opening direct email...');
+      }
+    } catch (err) {
+      console.warn('Form submission encountered an issue, opening Gmail compose fallback:', err);
+      // Fallback: Open pre-filled Gmail compose directly to sajin0904@gmail.com
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=sajin0904@gmail.com&su=${encodeURIComponent(`Inquiry: ${formData.inquiryType} from ${formData.name}`)}&body=${encodeURIComponent(`Hi Sajin,\n\nName: ${formData.name}\nEmail: ${formData.email}\nInquiry Type: ${formData.inquiryType}\nExpected CTC / Scope: ${formData.budgetRange}\n\nMessage:\n${formData.message}`)}`;
+      window.open(gmailUrl, '_blank');
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -127,23 +155,22 @@ export default function Contact({ currentTheme = 'red' }) {
           {/* Action Cards Stack */}
           <div className="ref-action-cards-stack">
             
-            {/* Email us */}
+            {/* Email us - Redirects directly to Gmail */}
             <a 
-              href="mailto:sajin0904@gmail.com" 
+              href={GMAIL_COMPOSE_URL} 
+              target="_blank"
+              rel="noreferrer"
               className="ref-action-card"
-              onClick={handleCopyEmail}
             >
               <div className="ref-card-icon-box email-box">
                 <Mail size={20} />
               </div>
               <div className="ref-card-text">
                 <span className="ref-card-title">Email us</span>
-                <span className="ref-card-val">
-                  {copied ? 'Copied to clipboard!' : 'sajin0904@gmail.com'}
-                </span>
+                <span className="ref-card-val">sajin0904@gmail.com</span>
               </div>
-              <div className="ref-card-arrow-pill" title="Copy / Send email">
-                {copied ? <Check size={16} color="#22c55e" /> : <ArrowUpRight size={16} />}
+              <div className="ref-card-arrow-pill" title="Open Gmail Compose">
+                <ArrowUpRight size={16} />
               </div>
             </a>
 

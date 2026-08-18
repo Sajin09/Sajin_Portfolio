@@ -24,6 +24,10 @@
   --gradient-theme-horizontal: linear-gradient(90deg, #530F0F 0%, #F90000 75%, #ff4d4d 100%);
   --gradient-hover: linear-gradient(180.27deg, #ff1a1a 14.83%, #7a1515 99.77%);
   --theme-color-name: 'Red';
+
+  /* Neon Glowing Cyber Arrow Cursors (Red) */
+  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3Cfilter id='neonGlowRed' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='1.6' flood-color='%23FF0000' flood-opacity='1'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='3.2' flood-color='%23FF0000' flood-opacity='0.85'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='5.5' flood-color='%23FF0000' flood-opacity='0.55'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FF0000' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round' filter='url(%23neonGlowRed)'/%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FF1E38' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 5 3, auto;
+  --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3Cfilter id='neonGlowRedP' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='2.2' flood-color='%23FF0000' flood-opacity='1'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='4.5' flood-color='%23FF0000' flood-opacity='0.9'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='7' flood-color='%23FF0000' flood-opacity='0.65'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FF0000' stroke-width='2.8' stroke-linejoin='round' stroke-linecap='round' filter='url(%23neonGlowRedP)'/%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FFFFFF' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 5 3, pointer;
 }
 
 :root[data-theme='blue'] {
@@ -45,6 +49,10 @@
   --gradient-theme-horizontal: linear-gradient(90deg, #0a1f44 0%, #0072F5 75%, #38bdf8 100%);
   --gradient-hover: linear-gradient(180.27deg, #1e85ff 14.83%, #0e2a5c 99.77%);
   --theme-color-name: 'Blue';
+
+  /* Neon Glowing Cyber Arrow Cursors (Blue) */
+  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3Cfilter id='neonGlowBlue' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='1.6' flood-color='%230088FF' flood-opacity='1'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='3.2' flood-color='%230088FF' flood-opacity='0.85'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='5.5' flood-color='%230088FF' flood-opacity='0.55'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%230088FF' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round' filter='url(%23neonGlowBlue)'/%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%2338BDF8' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 5 3, auto;
+  --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3Cfilter id='neonGlowBlueP' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='2.2' flood-color='%230088FF' flood-opacity='1'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='4.5' flood-color='%230088FF' flood-opacity='0.9'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='7' flood-color='%230088FF' flood-opacity='0.65'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%230088FF' stroke-width='2.8' stroke-linejoin='round' stroke-linecap='round' filter='url(%23neonGlowBlueP)'/%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FFFFFF' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 5 3, pointer;
 }
 
 :root[data-theme='green'] {
@@ -66,6 +74,10 @@
   --gradient-theme-horizontal: linear-gradient(90deg, #063820 0%, #10B981 75%, #34d399 100%);
   --gradient-hover: linear-gradient(180.27deg, #1cd497 14.83%, #09472a 99.77%);
   --theme-color-name: 'Green';
+
+  /* Neon Glowing Cyber Arrow Cursors (Green) */
+  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3Cfilter id='neonGlowGreen' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='1.6' flood-color='%2300FF66' flood-opacity='1'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='3.2' flood-color='%2300FF66' flood-opacity='0.85'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='5.5' flood-color='%2300FF66' flood-opacity='0.55'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%2300FF66' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round' filter='url(%23neonGlowGreen)'/%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%2334D399' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 5 3, auto;
+  --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3Cfilter id='neonGlowGreenP' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='2.2' flood-color='%2300FF66' flood-opacity='1'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='4.5' flood-color='%2300FF66' flood-opacity='0.9'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='7' flood-color='%2300FF66' flood-opacity='0.65'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%2300FF66' stroke-width='2.8' stroke-linejoin='round' stroke-linecap='round' filter='url(%23neonGlowGreenP)'/%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FFFFFF' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 5 3, pointer;
 }
 
 :root[data-theme='yellow'] {
@@ -87,6 +99,10 @@
   --gradient-theme-horizontal: linear-gradient(90deg, #4d3305 0%, #F59E0B 75%, #fbbf24 100%);
   --gradient-hover: linear-gradient(180.27deg, #fbbf24 14.83%, #664306 99.77%);
   --theme-color-name: 'Yellow';
+
+  /* Neon Glowing Cyber Arrow Cursors (Yellow) */
+  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3Cfilter id='neonGlowYellow' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='1.6' flood-color='%23FFCC00' flood-opacity='1'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='3.2' flood-color='%23FFCC00' flood-opacity='0.85'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='5.5' flood-color='%23FFCC00' flood-opacity='0.55'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FFCC00' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round' filter='url(%23neonGlowYellow)'/%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FBBF24' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 5 3, auto;
+  --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cdefs%3E%3Cfilter id='neonGlowYellowP' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='2.2' flood-color='%23FFCC00' flood-opacity='1'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='4.5' flood-color='%23FFCC00' flood-opacity='0.9'/%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='7' flood-color='%23FFCC00' flood-opacity='0.65'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FFCC00' stroke-width='2.8' stroke-linejoin='round' stroke-linecap='round' filter='url(%23neonGlowYellowP)'/%3E%3Cpath d='M5 3L5 25L10.5 19.5L23 19.5L5 3Z' fill='%23000000' stroke='%23FFFFFF' stroke-width='1.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 5 3, pointer;
 }
 
 :root {
@@ -143,6 +159,7 @@ html {
   scroll-behavior: smooth;
   color-scheme: dark;
   font-family: var(--font-body);
+  cursor: var(--cursor-default);
 }
 
 body {
@@ -152,12 +169,18 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+  cursor: var(--cursor-default);
   background-image: 
     radial-gradient(at 15% 15%, rgba(var(--primary-rgb), 0.08) 0px, transparent 50%),
     radial-gradient(at 85% 25%, rgba(var(--primary-rgb), 0.06) 0px, transparent 50%),
     linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+}
+
+/* Interactive Elements Use Dynamic Pointer Cursor */
+a, button, [role='button'], input[type='submit'], input[type='button'], select, .btn, .clickable, [onclick], label, .accordion-nav-btn, .proj-mob-tab-btn, .timeline-segment-pill, .siri-sidebar-item, .skills-tab-item, .mob-tab-btn, .about-pill-tab, .theme-dot, .ref-action-card, .ref-nav-theme-dot, .floating-resume-pill, .hero-social-btn, .hero-mob-social-btn, .mob-action-btn, .capsule-btn, .mob-proj-btn, .proj-mob-arrow-btn, .proj-mob-dot, .modal-close-btn {
+  cursor: var(--cursor-pointer) !important;
 }
 
 /* Typography styles */
@@ -457,7 +480,7 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   position: relative;
   width: 100%;
 }

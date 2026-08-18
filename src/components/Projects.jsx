@@ -232,229 +232,371 @@ export default function Projects() {
     <section id="projects" className="projects-section">
       <div className="projects-container">
         
-        {/* Section Header */}
-        <div className="projects-header scroll-reveal section-header-row">
-          <div className="section-header-left">
-            <span className="projects-script-tag">Featured Deployments</span>
-            <h2 className="projects-headline">
-              <span className="projects-title-white">FEATURED</span>
-              <span className="projects-title-red">PROJECTS & SYSTEMS</span>
-            </h2>
-            <div className="projects-title-line"></div>
-            <p className="projects-header-desc">
-              Production-tested full-stack platforms, scalable enterprise architectures, and AI workflow integrations.
-            </p>
-          </div>
+        {/* =========================================================================
+           1. DESKTOP VIEW STRUCTURE (Visible on screens > 900px)
+           ========================================================================= */}
+        <div className="projects-desktop-wrapper">
+          
+          {/* Section Header */}
+          <div className="projects-header scroll-reveal section-header-row">
+            <div className="section-header-left">
+              <span className="projects-script-tag">Featured Deployments</span>
+              <h2 className="projects-headline">
+                <span className="projects-title-white">FEATURED</span>
+                <span className="projects-title-red">PROJECTS & SYSTEMS</span>
+              </h2>
+              <div className="projects-title-line"></div>
+              <p className="projects-header-desc">
+                Production-tested full-stack platforms, scalable enterprise architectures, and AI workflow integrations.
+              </p>
+            </div>
 
-          {/* Right Header Widget: 03 Watermark & Rotating Badge */}
-          <div className="section-header-right">
-            <div className="section-watermark-num">03</div>
-            <div className="section-rotating-badge">
-              <svg className="badge-circular-svg" viewBox="0 0 100 100">
-                <path
-                  id="circlePathProjects"
-                  d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
-                  fill="none"
-                />
-                <text className="circular-badge-text">
-                  <textPath href="#circlePathProjects" startOffset="0%">
-                    • FEATURED PROJECTS • PRODUCTION DEPLOYS
-                  </textPath>
-                </text>
-              </svg>
-              <div className="badge-center-icon">
-                <Sparkles size={20} />
+            {/* Right Header Widget: 03 Watermark & Rotating Badge */}
+            <div className="section-header-right">
+              <div className="section-watermark-num">03</div>
+              <div className="section-rotating-badge">
+                <svg className="badge-circular-svg" viewBox="0 0 100 100">
+                  <path
+                    id="circlePathProjects"
+                    d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                    fill="none"
+                  />
+                  <text className="circular-badge-text">
+                    <textPath href="#circlePathProjects" startOffset="0%">
+                      • FEATURED PROJECTS • PRODUCTION DEPLOYS
+                    </textPath>
+                  </text>
+                </svg>
+                <div className="badge-center-icon">
+                  <Sparkles size={20} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Ambient Red Spotlight */}
-        <div className="projects-ambient-glow"></div>
+          {/* Ambient Red Spotlight */}
+          <div className="projects-ambient-glow"></div>
 
-        {/* Top Active System Bar */}
-        <div className="accordion-controls-bar scroll-reveal delay-1">
-          <div className="controls-meta-info">
-            <span className="active-sys-pill">
-              <span className="pill-pulse-dot"></span>
-              <span>ACTIVE SYSTEM: <strong>{currentProject.title}</strong></span>
-            </span>
-          </div>
-        </div>
-
-        {/* Expanding Accordion Capsule Carousel (5 Sections Seamless Infinite Loop) */}
-        <div 
-          className="expanding-capsule-carousel scroll-reveal delay-2"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {PROJECTS.map((project, idx) => {
-            const isActive = activeIndex === idx;
-
-            return (
-              <div
-                key={project.id}
-                className={`capsule-card ${isActive ? 'active' : 'collapsed'}`}
-                onClick={() => handleCardClick(idx)}
-              >
-                
-                {/* Active Expanded Card Content */}
-                {isActive ? (
-                  <div className="active-card-content">
-                    
-                    {/* Top Cyber Meta Bar */}
-                    <div className="active-top-bar">
-                      <div className="active-tag-wrapper">
-                        <span className="active-category-tag">
-                          <Sparkles size={13} />
-                          <span>{project.tag}</span>
-                        </span>
-                        <span className="active-project-num">{project.number}</span>
-                      </div>
-                      <div className="active-status-beacon">
-                        <span className="beacon-pulse"></span>
-                        <span>LIVE DEPLOYMENT</span>
-                      </div>
-                    </div>
-
-                    {/* Project Title & Summary */}
-                    <div className="active-header-area">
-                      <h3 className="active-project-heading">{project.title}</h3>
-                      <p className="active-project-summary">{project.description}</p>
-                    </div>
-
-                    {/* Architecture Highlights Bullets */}
-                    <div className="active-highlights-block">
-                      <span className="block-label">SYSTEM HIGHLIGHTS:</span>
-                      <div className="highlights-grid">
-                        {project.highlights.map((h, hIdx) => (
-                          <div key={hIdx} className="highlight-bullet-item">
-                            <span className="h-diamond">✦</span>
-                            <span>{h}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Tech Stack Chips */}
-                    <div className="active-tech-row">
-                      {project.tags.map((t, tIdx) => (
-                        <span key={tIdx} className="active-tech-pill">{t}</span>
-                      ))}
-                    </div>
-
-                    {/* Bottom Action Area (Matching Reference UI Badge + CTAs) */}
-                    <div className="active-bottom-bar">
-                      
-                      {/* Reference UI Bottom Left Icon Circle */}
-                      <div className="reference-bottom-badge" style={{ borderColor: project.iconColor }}>
-                        {project.icon}
-                        <span className="badge-ping-dot" style={{ background: project.iconColor }}></span>
-                      </div>
-
-                      <div className="active-actions-group">
-                        <a 
-                          href={project.liveUrl} 
-                          target="_blank" 
-                          rel="noreferrer" 
-                          className="capsule-btn capsule-btn-primary"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <span>Live Demo</span>
-                          <ExternalLink size={15} />
-                        </a>
-                        <a 
-                          href={project.githubUrl} 
-                          target="_blank" 
-                          rel="noreferrer" 
-                          className="capsule-btn capsule-btn-secondary"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <GithubIcon size={15} />
-                          <span>Source</span>
-                        </a>
-                        <button 
-                          className="capsule-btn capsule-btn-ghost"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedProject(project);
-                          }}
-                        >
-                          <span>Inspect</span>
-                          <ArrowUpRight size={15} />
-                        </button>
-                      </div>
-
-                    </div>
-
-                  </div>
-                ) : (
-                  /* Collapsed Slender Capsule Content (Matching Reference UI) */
-                  <div className="collapsed-card-content">
-                    
-                    <span className="collapsed-num">{project.number}</span>
-                    
-                    <div className="collapsed-vertical-title">
-                      <span>{project.title}</span>
-                    </div>
-
-                    {/* Reference UI Bottom Circular Badge */}
-                    <div className="collapsed-bottom-badge">
-                      {project.icon}
-                    </div>
-
-                  </div>
-                )}
-
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Futuristic Multi-Segment Cyber Timeline Loader Dock */}
-        <div className="cyber-timeline-dock">
-          
-          {/* Left: Live Scan State */}
-          <div className="timeline-status-info">
-            <span className={`status-beacon-dot ${isPaused ? 'paused' : 'scanning'}`}></span>
-            <span className="status-text">
-              {isPaused ? 'SYSTEM SCAN: PAUSED' : 'SYSTEM SCAN: ACTIVE'}
-            </span>
+          {/* Top Active System Bar */}
+          <div className="accordion-controls-bar scroll-reveal delay-1">
+            <div className="controls-meta-info">
+              <span className="active-sys-pill">
+                <span className="pill-pulse-dot"></span>
+                <span>ACTIVE SYSTEM: <strong>{currentProject.title}</strong></span>
+              </span>
+            </div>
           </div>
 
-          {/* Center: 5 Interactive Segmented Capsule Bars */}
-          <div className="timeline-segments-group">
-            {PROJECTS.map((proj, pIdx) => {
-              const isPast = pIdx < activeIndex;
-              const isCurrent = pIdx === activeIndex;
+          {/* Expanding Accordion Capsule Carousel */}
+          <div 
+            className="expanding-capsule-carousel scroll-reveal delay-2"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            {PROJECTS.map((project, idx) => {
+              const isActive = activeIndex === idx;
 
               return (
-                <button
-                  key={proj.id}
-                  className={`timeline-segment-pill ${isCurrent ? 'active' : isPast ? 'passed' : 'upcoming'}`}
-                  onClick={() => handleCardClick(pIdx)}
-                  aria-label={`Jump to project ${proj.number}`}
+                <div
+                  key={project.id}
+                  className={`capsule-card ${isActive ? 'active' : 'collapsed'}`}
+                  onClick={() => handleCardClick(idx)}
                 >
-                  <div className="segment-bar-track">
-                    <div 
-                      key={`seg-${activeIndex}-${isPaused}`}
-                      className={`segment-bar-fill ${isCurrent && !isPaused ? 'filling' : ''}`}
-                    ></div>
-                  </div>
-                  <div className="segment-pill-label">
-                    <span className="seg-num">{proj.number}</span>
-                    <span className="seg-name">{proj.title.split(' ')[0]}</span>
-                  </div>
+                  
+                  {/* Active Expanded Card Content */}
+                  {isActive ? (
+                    <div className="active-card-content">
+                      
+                      <div className="active-top-bar">
+                        <div className="active-tag-wrapper">
+                          <span className="active-category-tag">
+                            <Sparkles size={13} />
+                            <span>{project.tag}</span>
+                          </span>
+                          <span className="active-project-num">{project.number}</span>
+                        </div>
+                        <div className="active-status-beacon">
+                          <span className="beacon-pulse"></span>
+                          <span>LIVE DEPLOYMENT</span>
+                        </div>
+                      </div>
+
+                      <div className="active-header-area">
+                        <h3 className="active-project-heading">{project.title}</h3>
+                        <p className="active-project-summary">{project.description}</p>
+                      </div>
+
+                      <div className="active-highlights-block">
+                        <span className="block-label">SYSTEM HIGHLIGHTS:</span>
+                        <div className="highlights-grid">
+                          {project.highlights.map((h, hIdx) => (
+                            <div key={hIdx} className="highlight-bullet-item">
+                              <span className="h-diamond">✦</span>
+                              <span>{h}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="active-tech-row">
+                        {project.tags.map((t, tIdx) => (
+                          <span key={tIdx} className="active-tech-pill">{t}</span>
+                        ))}
+                      </div>
+
+                      <div className="active-bottom-bar">
+                        
+                        <div className="reference-bottom-badge" style={{ borderColor: project.iconColor }}>
+                          {project.icon}
+                          <span className="badge-ping-dot" style={{ background: project.iconColor }}></span>
+                        </div>
+
+                        <div className="active-actions-group">
+                          <a 
+                            href={project.liveUrl} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="capsule-btn capsule-btn-primary"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <span>Live Demo</span>
+                            <ExternalLink size={15} />
+                          </a>
+                          <a 
+                            href={project.githubUrl} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="capsule-btn capsule-btn-secondary"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <GithubIcon size={15} />
+                            <span>Source</span>
+                          </a>
+                          <button 
+                            className="capsule-btn capsule-btn-ghost"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedProject(project);
+                            }}
+                          >
+                            <span>Inspect</span>
+                            <ArrowUpRight size={15} />
+                          </button>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  ) : (
+                    <div className="collapsed-card-content">
+                      <span className="collapsed-num">{project.number}</span>
+                      <div className="collapsed-vertical-title">
+                        <span>{project.title}</span>
+                      </div>
+                      <div className="collapsed-bottom-badge">
+                        {project.icon}
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Futuristic Multi-Segment Cyber Timeline Loader Dock */}
+          <div className="cyber-timeline-dock">
+            
+            <div className="timeline-status-info">
+              <span className={`status-beacon-dot ${isPaused ? 'paused' : 'scanning'}`}></span>
+              <span className="status-text">
+                {isPaused ? 'SYSTEM SCAN: PAUSED' : 'SYSTEM SCAN: ACTIVE'}
+              </span>
+            </div>
+
+            <div className="timeline-segments-group">
+              {PROJECTS.map((proj, pIdx) => {
+                const isPast = pIdx < activeIndex;
+                const isCurrent = pIdx === activeIndex;
+
+                return (
+                  <button
+                    key={proj.id}
+                    className={`timeline-segment-pill ${isCurrent ? 'active' : isPast ? 'passed' : 'upcoming'}`}
+                    onClick={() => handleCardClick(pIdx)}
+                    aria-label={`Jump to project ${proj.number}`}
+                  >
+                    <div className="segment-bar-track">
+                      <div 
+                        key={`seg-${activeIndex}-${isPaused}`}
+                        className={`segment-bar-fill ${isCurrent && !isPaused ? 'filling' : ''}`}
+                      ></div>
+                    </div>
+                    <div className="segment-pill-label">
+                      <span className="seg-num">{proj.number}</span>
+                      <span className="seg-name">{proj.title.split(' ')[0]}</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="timeline-counter-badge">
+              <span className="counter-idx">SYS {currentProject.number}</span>
+              <span className="counter-sep">//</span>
+              <span className="counter-status">05 READY</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* =========================================================================
+           2. MODERN ALTERNATIVE MOBILE PROJECTS VIEW (Visible ONLY on <= 900px)
+           ========================================================================= */}
+        <div className="projects-mobile-layout">
+          
+          {/* Mobile Header */}
+          <div className="proj-mob-header">
+            <span className="proj-mob-script">Featured Deployments</span>
+            <h2 className="proj-mob-title">
+              <span>FEATURED</span>
+              <span className="proj-mob-title-gradient">PROJECTS</span>
+            </h2>
+            <div className="proj-mob-status-pill">
+              <span className="proj-mob-pulse"></span>
+              <span>5s Auto-Cycle • Tap To View</span>
+            </div>
+          </div>
+
+          {/* Mobile Project Selector Tabs */}
+          <div className="proj-mob-tabs-row">
+            {PROJECTS.map((p, idx) => {
+              const isActive = activeIndex === idx;
+              return (
+                <button
+                  key={p.id}
+                  className={`proj-mob-tab-btn ${isActive ? 'active' : ''}`}
+                  onClick={() => handleCardClick(idx)}
+                  aria-label={`Select ${p.title}`}
+                >
+                  <span className="mob-tab-num">{p.number}</span>
+                  <span className="mob-tab-name">{p.title.split(' ')[0]}</span>
                 </button>
               );
             })}
           </div>
 
-          {/* Right: Telemetry Counter Badge */}
-          <div className="timeline-counter-badge">
-            <span className="counter-idx">SYS {currentProject.number}</span>
-            <span className="counter-sep">//</span>
-            <span className="counter-status">05 READY</span>
+          {/* Mobile Featured Project Card (Frosted Glass Cyber Bento) */}
+          <div key={currentProject.id} className="proj-mob-card">
+            
+            {/* Top Bar */}
+            <div className="proj-mob-card-top">
+              <div className="proj-mob-badge-group">
+                <span className="proj-mob-tag">{currentProject.tag}</span>
+                <span className="proj-mob-num">{currentProject.number}</span>
+              </div>
+              <div className="proj-mob-live-badge">
+                <span className="live-dot-pulse"></span>
+                <span>LIVE</span>
+              </div>
+            </div>
+
+            {/* Icon + Title */}
+            <div className="proj-mob-title-row">
+              <div className="proj-mob-icon-box" style={{ borderColor: currentProject.iconColor }}>
+                {currentProject.icon}
+              </div>
+              <h3 className="proj-mob-heading">{currentProject.title}</h3>
+            </div>
+
+            {/* Summary */}
+            <p className="proj-mob-desc">{currentProject.description}</p>
+
+            {/* Architecture Highlights */}
+            <div className="proj-mob-highlights-box">
+              <span className="mob-highlights-label">SYSTEM HIGHLIGHTS:</span>
+              <div className="mob-highlights-list">
+                {currentProject.highlights.map((h, hIdx) => (
+                  <div key={hIdx} className="mob-highlight-row">
+                    <span className="mob-h-bullet">✦</span>
+                    <span>{h}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tech Stack Chips */}
+            <div className="proj-mob-tech-chips">
+              {currentProject.tags.slice(0, 6).map((t, tIdx) => (
+                <span key={tIdx} className="mob-tech-chip">{t}</span>
+              ))}
+            </div>
+
+            {/* Mobile Action Buttons Group */}
+            <div className="proj-mob-actions-row">
+              <a 
+                href={currentProject.liveUrl} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="mob-proj-btn primary"
+              >
+                <span>Live Demo</span>
+                <ExternalLink size={15} />
+              </a>
+              <a 
+                href={currentProject.githubUrl} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="mob-proj-btn secondary"
+              >
+                <GithubIcon size={15} />
+                <span>Source</span>
+              </a>
+              <button 
+                className="mob-proj-btn ghost"
+                onClick={() => setSelectedProject(currentProject)}
+              >
+                <span>Inspect</span>
+                <ArrowUpRight size={15} />
+              </button>
+            </div>
+
+          </div>
+
+          {/* Mobile Navigation Timeline & Arrows */}
+          <div className="proj-mob-controls-dock">
+            
+            <button 
+              className="proj-mob-arrow-btn" 
+              onClick={prevSlide}
+              aria-label="Previous project"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            {/* Segmented Timeline Dots */}
+            <div className="proj-mob-timeline-dots">
+              {PROJECTS.map((_, dotIdx) => (
+                <button
+                  key={dotIdx}
+                  className={`proj-mob-dot ${dotIdx === activeIndex ? 'active' : ''}`}
+                  onClick={() => handleCardClick(dotIdx)}
+                  aria-label={`Go to project ${dotIdx + 1}`}
+                >
+                  {dotIdx === activeIndex && <span className="dot-active-bar"></span>}
+                </button>
+              ))}
+            </div>
+
+            <button 
+              className="proj-mob-arrow-btn" 
+              onClick={nextSlide}
+              aria-label="Next project"
+            >
+              <ChevronRight size={20} />
+            </button>
+
           </div>
 
         </div>
@@ -485,7 +627,7 @@ export default function Projects() {
               <div className="modal-highlights-col">
                 <h4 className="modal-section-title">
                   <ShieldCheck size={16} className="theme-primary-svg" />
-                  <span>Key Architecture & Capabilities</span>
+                  <span>Key Architecture &amp; Capabilities</span>
                 </h4>
                 <div className="modal-features-list">
                   {selectedProject.highlights.map((h, idx) => (

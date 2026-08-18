@@ -153,7 +153,7 @@ export default function Skills() {
   const [activeTab, setActiveTab] = useState('frontend');
   const timerRef = useRef(null);
 
-  // Seamless Infinite Loop Auto-Cycle every 3 seconds
+  // Seamless Infinite Loop Auto-Cycle every 4 seconds
   useEffect(() => {
     timerRef.current = setInterval(() => {
       setActiveTab(prev => {
@@ -161,7 +161,7 @@ export default function Skills() {
         const nextIdx = (idx + 1) % CATEGORIES.length;
         return CATEGORIES[nextIdx].id;
       });
-    }, 3000);
+    }, 4000);
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -170,7 +170,7 @@ export default function Skills() {
 
   const handleTabClick = (catId) => {
     setActiveTab(catId);
-    // Reset timer to continue loop seamlessly from clicked tab
+    // Reset timer to continue loop seamlessly from clicked tab (4s per category)
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setActiveTab(prev => {
@@ -178,7 +178,7 @@ export default function Skills() {
         const nextIdx = (idx + 1) % CATEGORIES.length;
         return CATEGORIES[nextIdx].id;
       });
-    }, 3000);
+    }, 4000);
   };
 
   const currentCategory = CATEGORIES.find(c => c.id === activeTab) || CATEGORIES[0];
@@ -187,161 +187,310 @@ export default function Skills() {
     <section id="skills" className="skills-section">
       <div className="skills-container">
         
-        {/* Section Header */}
-        <div className="skills-header scroll-reveal section-header-row">
-          <div className="section-header-left">
-            <span className="skills-script-tag">Mastered Arsenal</span>
-            <h2 className="skills-headline">
-              <span className="skills-title-white">TECHNICAL</span>
-              <span className="skills-title-red">SKILLS & EXPERTISE</span>
-            </h2>
-            <div className="skills-title-line"></div>
-            <p className="skills-header-desc">
-              3+ years of production-tested proficiency across the full MERN stack, cloud databases, and AI workflows.
-            </p>
-          </div>
+        {/* =========================================================================
+           1. DESKTOP VIEW STRUCTURE (Visible on screens > 900px)
+           ========================================================================= */}
+        <div className="skills-desktop-wrapper">
+          
+          {/* Section Header */}
+          <div className="skills-header scroll-reveal section-header-row">
+            <div className="section-header-left">
+              <span className="skills-script-tag">Mastered Arsenal</span>
+              <h2 className="skills-headline">
+                <span className="skills-title-white">TECHNICAL</span>
+                <span className="skills-title-red">SKILLS & EXPERTISE</span>
+              </h2>
+              <div className="skills-title-line"></div>
+              <p className="skills-header-desc">
+                3+ years of production-tested proficiency across the full MERN stack, cloud databases, and AI workflows.
+              </p>
+            </div>
 
-          {/* Right Header Widget: 02 Watermark & Rotating Badge */}
-          <div className="section-header-right">
-            <div className="section-watermark-num">02</div>
-            <div className="section-rotating-badge">
-              <svg className="badge-circular-svg" viewBox="0 0 100 100">
-                <path
-                  id="circlePathSkills"
-                  d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
-                  fill="none"
-                />
-                <text className="circular-badge-text">
-                  <textPath href="#circlePathSkills" startOffset="0%">
-                    • CORE SKILLS • TECH ARSENAL • MERN STACK
-                  </textPath>
-                </text>
-              </svg>
-              <div className="badge-center-icon">
-                <Cpu size={20} />
+            {/* Right Header Widget: 02 Watermark & Rotating Badge */}
+            <div className="section-header-right">
+              <div className="section-watermark-num">02</div>
+              <div className="section-rotating-badge">
+                <svg className="badge-circular-svg" viewBox="0 0 100 100">
+                  <path
+                    id="circlePathSkills"
+                    d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                    fill="none"
+                  />
+                  <text className="circular-badge-text">
+                    <textPath href="#circlePathSkills" startOffset="0%">
+                      • CORE SKILLS • TECH ARSENAL • MERN STACK
+                    </textPath>
+                  </text>
+                </svg>
+                <div className="badge-center-icon">
+                  <Cpu size={20} />
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Ambient Glow Behind Deck */}
+          <div className="skills-ambient-glow"></div>
+
+          {/* Main Full-Screen Cyber Console */}
+          <div className="skills-cyber-console scroll-reveal delay-2">
+            
+            {/* Left: Floating Capsule Dock Navigation */}
+            <div className="skills-capsule-dock">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  className={`capsule-dock-btn ${activeTab === cat.id ? 'active' : ''}`}
+                  onClick={() => handleTabClick(cat.id)}
+                  aria-label={cat.label}
+                >
+                  <div className="dock-icon-wrap">
+                    {cat.icon}
+                  </div>
+                  <span className="dock-tooltip">{cat.label}</span>
+                  {activeTab === cat.id && <span className="dock-active-glow"></span>}
+                </button>
+              ))}
+            </div>
+
+            {/* Center: Concentric Orbital Radar System with Siri AI Orb & Orbiting Logos */}
+            <div className="skills-orbital-stage">
+              <div className="orbital-system-container">
+                
+                <div className="orbital-ring ring-outer"></div>
+                <div className="orbital-ring ring-middle"></div>
+                <div className="orbital-ring ring-inner"></div>
+
+                <div className="orbital-core-glow"></div>
+
+                {/* Center Siri-Style AI Glowing Fluid Energy Orb with Active Category Icon */}
+                <div className="siri-ai-orb-container" title={`Active: ${currentCategory.label}`}>
+                  <div className="siri-electric-ring siri-ring-1"></div>
+                  <div className="siri-electric-ring siri-ring-2"></div>
+                  <div className="siri-electric-ring siri-ring-3"></div>
+
+                  <div className="siri-fluid-sphere">
+                    <div className="siri-plasma-layer layer-crimson"></div>
+                    <div className="siri-plasma-layer layer-fire"></div>
+                    <div className="siri-plasma-layer layer-neon"></div>
+                  </div>
+
+                  <div key={activeTab} className="siri-orb-center-icon" aria-label={currentCategory.label}>
+                    {React.cloneElement(currentCategory.icon, { size: 36, strokeWidth: 2.2 })}
+                  </div>
+
+                  <div className="siri-glow-aura"></div>
+                </div>
+
+                {/* Dynamic Tech Logo Orbs Orbiting on Concentric Rings */}
+                {currentCategory.orbs.map((orb, oIdx) => (
+                  <div key={`${activeTab}-${oIdx}`} className={`orbital-tech-node ${orb.class}`}>
+                    <div className="tech-node-circle">
+                      <span className="node-icon-inner">{orb.icon}</span>
+                      <span className="tech-node-status-dot"></span>
+                    </div>
+                    <span className="tech-node-label">{orb.name}</span>
+                  </div>
+                ))}
+
+              </div>
+            </div>
+
+            {/* Right: Detailed Capability Console with Progress Bars */}
+            <div className="skills-detail-console">
+              
+              <div className="console-top-meta">
+                <span className="console-tag-badge">
+                  <Sparkles size={13} />
+                  <span>{currentCategory.tag}</span>
+                </span>
+                <div className="console-indicator">
+                  <span className="console-pulse"></span>
+                  <span>LIVE PROFICIENCY</span>
+                </div>
+              </div>
+
+              <h3 className="console-title">{currentCategory.title}</h3>
+              <p className="console-description">{currentCategory.description}</p>
+
+              {/* Progress Bars */}
+              <div className="skills-progress-list">
+                {currentCategory.skills.map((skill, sIdx) => (
+                  <div key={`${activeTab}-${sIdx}`} className="skill-meter-item">
+                    <div className="skill-meter-header">
+                      <div className="meter-name-group">
+                        <span className="meter-bullet">✦</span>
+                        <span className="meter-skill-name">{skill.name}</span>
+                        <span className="meter-skill-tag">({skill.tag})</span>
+                      </div>
+                      <span className="meter-percentage">{skill.level}%</span>
+                    </div>
+
+                    <div className="meter-track">
+                      <div 
+                        className="meter-fill"
+                        style={{ width: `${skill.level}%` }}
+                      >
+                        <span className="meter-tip-glow"></span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Badges Cloud */}
+              <div className="skills-chips-section">
+                <span className="chips-label">CORE LIBRARIES & TOOLS:</span>
+                <div className="chips-wrap">
+                  {currentCategory.chips.map((chip, cIdx) => (
+                    <span key={cIdx} className="console-skill-chip">
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
-        {/* Ambient Red Glow Behind Deck */}
-        <div className="skills-ambient-glow"></div>
-
-        {/* Main Full-Screen Cyber Console */}
-        <div className="skills-cyber-console scroll-reveal delay-2">
+        {/* =========================================================================
+           2. MODERN ALTERNATIVE MOBILE SKILLS VIEW (Visible ONLY on <= 900px)
+           ========================================================================= */}
+        <div className="skills-mobile-layout">
           
-          {/* Left: Floating Capsule Dock Navigation */}
-          <div className="skills-capsule-dock">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.id}
-                className={`capsule-dock-btn ${activeTab === cat.id ? 'active' : ''}`}
-                onClick={() => handleTabClick(cat.id)}
-                aria-label={cat.label}
-              >
-                <div className="dock-icon-wrap">
-                  {cat.icon}
-                </div>
-                <span className="dock-tooltip">{cat.label}</span>
-                {activeTab === cat.id && <span className="dock-active-glow"></span>}
-              </button>
-            ))}
-          </div>
-
-          {/* Center: Concentric Orbital Radar System with Siri AI Orb & Orbiting Logos */}
-          <div className="skills-orbital-stage">
-            <div className="orbital-system-container">
-              
-              {/* Concentric Cosmic Radar Rings */}
-              <div className="orbital-ring ring-outer"></div>
-              <div className="orbital-ring ring-middle"></div>
-              <div className="orbital-ring ring-inner"></div>
-
-              {/* Glowing Ambient Radial Core */}
-              <div className="orbital-core-glow"></div>
-
-              {/* Center Siri-Style AI Glowing Fluid Energy Orb (Crimson Red Theme) */}
-              <div className="siri-ai-orb-container">
-                {/* Outer Swirling Electric Light Ribbons */}
-                <div className="siri-electric-ring siri-ring-1"></div>
-                <div className="siri-electric-ring siri-ring-2"></div>
-                <div className="siri-electric-ring siri-ring-3"></div>
-
-                {/* Siri Core Morphing Fluid Sphere */}
-                <div className="siri-fluid-sphere">
-                  <div className="siri-plasma-layer layer-crimson"></div>
-                  <div className="siri-plasma-layer layer-fire"></div>
-                  <div className="siri-plasma-layer layer-neon"></div>
-                  <div className="siri-inner-highlight"></div>
-                </div>
-
-                {/* Ambient Glowing Aura */}
-                <div className="siri-glow-aura"></div>
-              </div>
-
-              {/* Dynamic Tech Logo Orbs Orbiting on Concentric Rings */}
-              {currentCategory.orbs.map((orb, oIdx) => (
-                <div key={`${activeTab}-${oIdx}`} className={`orbital-tech-node ${orb.class}`}>
-                  <div className="tech-node-circle">
-                    <span className="node-icon-inner">{orb.icon}</span>
-                    <span className="tech-node-status-dot"></span>
-                  </div>
-                  <span className="tech-node-label">{orb.name}</span>
-                </div>
-              ))}
-
+          {/* Mobile Header */}
+          <div className="skills-mob-header">
+            <span className="skills-mob-script">Mastered Arsenal</span>
+            <h2 className="skills-mob-title">
+              <span>TECHNICAL</span>
+              <span className="skills-mob-title-gradient">SKILLS</span>
+            </h2>
+            <div className="skills-mob-status-pill">
+              <span className="skills-mob-pulse"></span>
+              <span>4s Auto-Cycle • Tap To Select</span>
             </div>
           </div>
 
-          {/* Right: Detailed Capability Console with Progress Bars */}
-          <div className="skills-detail-console">
+          {/* Mobile Category Horizontal Pill Tabs */}
+          <div className="skills-mob-tabs-row">
+            {CATEGORIES.map((cat) => {
+              const isActive = activeTab === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  className={`skills-mob-tab-btn ${isActive ? 'active' : ''}`}
+                  onClick={() => handleTabClick(cat.id)}
+                  aria-label={cat.label}
+                >
+                  <span className="mob-tab-icon">{cat.icon}</span>
+                  <span className="mob-tab-text">{cat.label}</span>
+                  {isActive && <span className="mob-tab-glow"></span>}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Mobile Concentric Orbital Radar System Card (Matching User Screenshot) */}
+          <div className="skills-mob-radar-card">
             
-            {/* Category Sub-Header */}
-            <div className="console-top-meta">
-              <span className="console-tag-badge">
-                <Sparkles size={13} />
-                <span>{currentCategory.tag}</span>
-              </span>
-              <div className="console-indicator">
-                <span className="console-pulse"></span>
-                <span>LIVE PROFICIENCY</span>
+            <div className="skills-mob-orbital-stage">
+              <div className="mob-orbital-system-container">
+                
+                {/* Concentric Cosmic Radar Rings */}
+                <div className="mob-orbital-ring mob-ring-outer"></div>
+                <div className="mob-orbital-ring mob-ring-middle"></div>
+                <div className="mob-orbital-ring mob-ring-inner"></div>
+
+                {/* Ambient Core Glow */}
+                <div className="mob-orbital-core-glow"></div>
+
+                {/* Center Siri-Style AI Glowing Fluid Energy Orb with Active Category Icon */}
+                <div className="mob-siri-ai-orb-container" title={`Active: ${currentCategory.label}`}>
+                  <div className="mob-siri-electric-ring mob-ring-1"></div>
+                  <div className="mob-siri-electric-ring mob-ring-2"></div>
+                  <div className="mob-siri-electric-ring mob-ring-3"></div>
+
+                  <div className="mob-siri-fluid-sphere">
+                    <div className="siri-plasma-layer layer-crimson"></div>
+                    <div className="siri-plasma-layer layer-fire"></div>
+                    <div className="siri-plasma-layer layer-neon"></div>
+                  </div>
+
+                  {/* Center Category Icon (Cloned from active category) */}
+                  <div key={activeTab} className="mob-siri-orb-center-icon" aria-label={currentCategory.label}>
+                    {React.cloneElement(currentCategory.icon, { size: 24, strokeWidth: 2.2 })}
+                  </div>
+
+                  <div className="mob-siri-glow-aura"></div>
+                </div>
+
+                {/* Dynamic Tech Logo Orbs Orbiting on Concentric Rings */}
+                {currentCategory.orbs.map((orb, oIdx) => (
+                  <div key={`${activeTab}-${oIdx}`} className={`mob-orbital-tech-node mob-radar-orb-${oIdx + 1}`}>
+                    <div className="mob-tech-node-circle">
+                      <span className="mob-node-icon-inner">{orb.icon}</span>
+                      <span className="mob-tech-node-status-dot"></span>
+                    </div>
+                    <span className="mob-tech-node-label">{orb.name}</span>
+                  </div>
+                ))}
+
               </div>
             </div>
 
-            <h3 className="console-title">{currentCategory.title}</h3>
-            <p className="console-description">{currentCategory.description}</p>
+            <div className="mob-radar-footer-badge">
+              <span className="mob-radar-dot"></span>
+              <span className="mob-radar-cat-title">{currentCategory.tag}</span>
+            </div>
 
-            {/* Interactive Animated Skill Meters */}
-            <div className="skills-progress-list">
+          </div>
+
+          {/* Mobile Skills Detailed Proficiency Glass Card */}
+          <div className="skills-mob-detail-card">
+            
+            <div className="skills-mob-card-head">
+              <span className="mob-head-badge">
+                <Sparkles size={13} />
+                <span>Proficiency Metrics</span>
+              </span>
+              <span className="mob-head-active-label">{currentCategory.label}</span>
+            </div>
+
+            <p className="skills-mob-desc">{currentCategory.description}</p>
+
+            {/* Skill Meters */}
+            <div className="skills-mob-meters-list">
               {currentCategory.skills.map((skill, sIdx) => (
-                <div key={`${activeTab}-${sIdx}`} className="skill-meter-item">
-                  <div className="skill-meter-header">
-                    <div className="meter-name-group">
-                      <span className="meter-bullet">✦</span>
-                      <span className="meter-skill-name">{skill.name}</span>
-                      <span className="meter-skill-tag">({skill.tag})</span>
+                <div key={`${activeTab}-${sIdx}`} className="mob-meter-item">
+                  <div className="mob-meter-header">
+                    <div className="mob-meter-name-wrap">
+                      <span className="mob-meter-dot">✦</span>
+                      <span className="mob-meter-name">{skill.name}</span>
                     </div>
-                    <span className="meter-percentage">{skill.level}%</span>
+                    <span className="mob-meter-pct">{skill.level}%</span>
                   </div>
-
-                  <div className="meter-track">
+                  <div className="mob-meter-track">
                     <div 
-                      className="meter-fill"
+                      className="mob-meter-fill"
                       style={{ width: `${skill.level}%` }}
                     >
-                      <span className="meter-tip-glow"></span>
+                      <span className="mob-meter-glow-tip"></span>
                     </div>
                   </div>
+                  <span className="mob-meter-subtag">{skill.tag}</span>
                 </div>
               ))}
             </div>
 
-            {/* Specialized Skill Badges Cloud */}
-            <div className="skills-chips-section">
-              <span className="chips-label">CORE LIBRARIES & TOOLS:</span>
-              <div className="chips-wrap">
+            {/* Core Libraries Cloud */}
+            <div className="skills-mob-chips-wrap">
+              <span className="mob-chips-heading">LIBRARIES &amp; WORKFLOWS:</span>
+              <div className="mob-chips-grid">
                 {currentCategory.chips.map((chip, cIdx) => (
-                  <span key={cIdx} className="console-skill-chip">
+                  <span key={cIdx} className="mob-chip-item">
                     {chip}
                   </span>
                 ))}

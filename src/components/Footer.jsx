@@ -135,9 +135,11 @@ export default function Footer({ currentTheme = 'red' }) {
               </a>
 
               <a 
-                href="mailto:sajin0904@gmail.com" 
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=sajin0904@gmail.com&su=Inquiry%20from%20Portfolio" 
+                target="_blank"
+                rel="noreferrer"
                 className="red-footer-social-capsule"
-                aria-label="Direct Email"
+                aria-label="Direct Email via Gmail"
               >
                 <Mail size={18} color="#ffffff" />
                 <span>Email</span>

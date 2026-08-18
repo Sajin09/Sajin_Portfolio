@@ -206,155 +206,340 @@
   border-color: var(--primary);
 }
 
+.ref-mobile-toggle-btn.open {
+  background: var(--gradient-theme);
+  border-color: var(--primary-light);
+  box-shadow: 0 0 16px rgba(var(--primary-rgb), 0.6);
+}
+
 .theme-primary-icon {
   color: var(--primary);
 }
 
+/* Hide Floating Top Bar when Drawer is Active to prevent overlapping buttons */
+.ref-nav-header.drawer-active {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+}
+
 /* --------------------------------------------------------------------------
-   Mobile Drawer
+   Mobile Backdrop & Frosted Glass Drawer (Matching Reference Capsule Design)
    -------------------------------------------------------------------------- */
+
+.ref-mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 998;
+  animation: backdropFade 0.25s ease forwards;
+}
+
+@keyframes backdropFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
 .ref-mobile-drawer {
   position: fixed;
-  top: 5rem;
-  left: 1.25rem;
-  right: 1.25rem;
-  pointer-events: auto;
+  top: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  width: calc(100vw - 1.7rem);
+  max-width: 335px;
   z-index: 999;
-  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  animation: drawerSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes drawerSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(35px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 
 .ref-mobile-drawer-inner {
-  background: #0c0c12;
-  border: 1.5px solid var(--primary);
-  border-radius: 24px;
-  padding: 1.5rem;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(var(--primary-rgb), 0.35);
+  height: 100%;
+  width: 100%;
+  border-radius: 36px;
+  background: radial-gradient(
+    circle at 50% 8%,
+    rgba(var(--primary-rgb), 0.6) 0%,
+    rgba(var(--primary-deep-rgb, var(--primary-rgb)), 0.36) 45%,
+    rgba(8, 8, 12, 0.98) 100%
+  );
+  border: 1.5px solid rgba(var(--primary-rgb), 0.5);
+  box-shadow: 
+    0 25px 65px rgba(0, 0, 0, 0.95),
+    0 0 45px rgba(var(--primary-rgb), 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.35),
+    inset 0 -10px 25px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  padding: 1.3rem 1.15rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  justify-content: space-between;
+  gap: 0.85rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.3s ease;
 }
 
-.ref-drawer-header {
+/* Drawer Top Bar: Embossed Glass Brand Logo + Close Arrow */
+.ref-drawer-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  padding-bottom: 0.2rem;
 }
 
-.ref-drawer-title {
+.ref-drawer-logo-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.35) 0%, rgba(var(--primary-rgb), 0.4) 65%, transparent 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 
+    inset 0 2px 8px rgba(255, 255, 255, 0.5),
+    0 6px 18px rgba(var(--primary-rgb), 0.45);
+  backdrop-filter: blur(8px);
+}
+
+.ref-drawer-logo-icon {
   font-family: var(--font-league), sans-serif;
-  font-size: 1.3rem;
-  color: #94a3b8;
-  letter-spacing: 0.05em;
+  font-size: 1.65rem;
+  font-weight: 400;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+  line-height: 1;
 }
 
-.ref-drawer-beacon {
+.ref-drawer-header-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.05rem;
+}
+
+.ref-drawer-brand-name {
+  font-family: var(--font-league), sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.ref-drawer-brand-status {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.62rem;
   font-weight: 700;
   color: #22c55e;
+  letter-spacing: 0.08em;
 }
+
+.ref-drawer-close-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.ref-drawer-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.08);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Navigation Items (Exact Match to Reference White Active Pill)
+   -------------------------------------------------------------------------- */
 
 .ref-mobile-nav-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.55rem;
+  width: 100%;
 }
 
-.ref-mobile-tab {
+.ref-mobile-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1.1rem;
-  border-radius: var(--radius-md);
+  gap: 0.85rem;
+  padding: 0.82rem 1.25rem;
+  border-radius: 9999px;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all var(--transition-fast);
+  color: #f1f5f9;
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.ref-mobile-tab-text {
-  font-family: var(--font-league), sans-serif;
-  font-size: 1.45rem;
-  letter-spacing: 0.04em;
+.ref-mobile-item:hover {
+  background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
+  transform: translateX(4px);
 }
 
-.ref-mobile-tab.active {
+.ref-item-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: color 0.2s ease;
+}
+
+.ref-item-text {
+  flex: 1;
+  letter-spacing: 0.02em;
+}
+
+/* Reference Signature Active State: Pure White Curved Pill with Dark Text/Icon */
+.ref-mobile-item.active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  border-color: #ffffff !important;
+  box-shadow: 
+    0 8px 24px rgba(255, 255, 255, 0.4),
+    0 0 22px rgba(var(--primary-rgb), 0.45);
+  transform: scale(1.02);
+}
+
+.ref-mobile-item.active .ref-item-icon-wrap {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+.ref-mobile-item.active .ref-item-text {
+  color: #000000 !important;
+}
+
+.ref-item-active-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
   background: #000000;
-  border-color: var(--primary);
+  margin-left: auto;
 }
 
-.ref-mobile-tab.active .ref-mobile-tab-text {
-  background: var(--gradient-theme);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* --------------------------------------------------------------------------
+   Mobile Theme Switcher Inside Drawer (Real-Time Color Transformation)
+   -------------------------------------------------------------------------- */
+
+.ref-mobile-theme-section {
+  background: rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(var(--primary-rgb), 0.35);
+  border-radius: 22px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
 }
 
-.ref-active-tag {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 800;
-  color: var(--primary);
-  background: rgba(var(--primary-rgb), 0.15);
-  border: 1px solid rgba(var(--primary-rgb), 0.4);
-  padding: 0.2rem 0.55rem;
-  border-radius: var(--radius-full);
-}
-
-/* Mobile Theme Row */
-.ref-mobile-theme-row {
+.ref-mobile-theme-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.85rem 1.1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-md);
-  gap: 0.75rem;
+  padding: 0 0.25rem;
 }
 
 .mobile-theme-label {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: #94a3b8;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
-.mobile-theme-swatches {
-  display: flex;
-  align-items: center;
+.mobile-theme-active-name {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--primary-light);
+  letter-spacing: 0.06em;
+}
+
+.mobile-theme-swatches-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.4rem;
 }
 
-.mobile-theme-btn {
-  display: inline-flex;
+.mobile-theme-tile {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 0.25rem 0.55rem;
-  border-radius: var(--radius-full);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: #cbd5e1;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.5rem 0.2rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-fast);
+  color: #cbd5e1;
 }
 
-.mobile-theme-btn.active {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
-  font-weight: 800;
+.mobile-theme-tile:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
 }
+
+.mobile-theme-tile.active {
+  background: rgba(var(--primary-rgb), 0.28);
+  border-color: var(--primary-light);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(var(--primary-rgb), 0.5);
+}
+
+.theme-tile-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-tile-name {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Drawer Bottom CTA
+   -------------------------------------------------------------------------- */
 
 .ref-drawer-footer {
-  padding-top: 0.5rem;
+  padding-top: 0.15rem;
+  width: 100%;
 }
 
 .ref-mobile-cta {
@@ -363,15 +548,21 @@
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.85rem;
-  border-radius: var(--radius-md);
+  padding: 0.82rem 1.15rem;
+  border-radius: 9999px;
   background: var(--gradient-theme);
   color: #ffffff;
-  font-family: var(--font-league), sans-serif;
-  font-size: 1.35rem;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
   text-decoration: none;
   border: 1px solid var(--primary-light);
-  box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.6);
+  box-shadow: 0 6px 22px rgba(var(--primary-rgb), 0.6);
+  transition: transform var(--transition-fast);
+}
+
+.ref-mobile-cta:active {
+  transform: scale(0.97);
 }
 
 /* ==========================================================================

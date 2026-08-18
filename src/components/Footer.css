@@ -354,6 +354,13 @@
   }
 }
 
+@media (max-width: 900px) {
+  .red-footer,
+  .theme-footer {
+    padding: 3rem 1.25rem 2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .red-footer-main-grid {
     grid-template-columns: 1fr;

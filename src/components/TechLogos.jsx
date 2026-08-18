@@ -125,14 +125,28 @@ export function SqlLogo({ size = 20, className = '' }) {
 export function GeminiLogo({ size = 20, className = '' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-      <path d="M12 2C12 7.5 7.5 12 2 12c5.5 0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5 0-10-4.5-10-10z" fill="url(#geminiGrad)" />
-      <defs>
-        <linearGradient id="geminiGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#1BA1E3" />
-          <stop offset="0.5" stopColor="#9C27B0" />
-          <stop offset="1" stopColor="#F90000" />
-        </linearGradient>
-      </defs>
+      {/* Top Left Quadrant - Red to Yellow */}
+      <path 
+        d="M12 2C12 7.5 7.5 12 2 12 L12 12 Z" 
+        fill="#EA4335" 
+      />
+      {/* Top Right Quadrant - Blue */}
+      <path 
+        d="M12 2 C12 7.5 16.5 12 22 12 L12 12 Z" 
+        fill="#4285F4" 
+      />
+      {/* Bottom Left Quadrant - Yellow/Amber */}
+      <path 
+        d="M2 12 C7.5 12 12 16.5 12 22 L12 12 Z" 
+        fill="#FBBC04" 
+      />
+      {/* Bottom Right Quadrant - Green */}
+      <path 
+        d="M22 12 C16.5 12 12 16.5 12 22 L12 12 Z" 
+        fill="#34A853" 
+      />
+      {/* Center Core Glow */}
+      <circle cx="12" cy="12" r="3" fill="#ffffff" opacity="0.75" />
     </svg>
   );
 }
@@ -156,12 +170,12 @@ export function GitLogo({ size = 20, className = '' }) {
 export function ViteLogo({ size = 20, className = '' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-      <path d="M21.5 3.5L12.7 21a.8.8 0 01-1.4 0L2.5 3.5a.8.8 0 011-1.1l8.5 3.7 8.5-3.7a.8.8 0 011 1.1z" fill="url(#viteGrad)" />
+      <path d="M21.5 3.5L12.7 21a.8.8 0 01-1.4 0L2.5 3.5a.8.8 0 011-1.1l8.5 3.7 8.5-3.7a.8.8 0 011 1.1z" fill="url(#viteGradLive)" />
       <path d="M13.2 2.5L7.5 12h4l-1 6 6.5-9h-4l1.2-6.5h-1z" fill="#FFD62E" />
       <defs>
-        <linearGradient id="viteGrad" x1="2" y1="2" x2="22" y2="22">
+        <linearGradient id="viteGradLive" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop stopColor="#41D1FF" />
-          <stop offset="1" stopColor="#BD34FE" />
+          <stop offset="100%" stopColor="#BD34FE" />
         </linearGradient>
       </defs>
     </svg>
