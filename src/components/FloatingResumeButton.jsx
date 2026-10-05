@@ -3,22 +3,23 @@ import resumePdf from '../assets/Resume/Sajin R_Resume.pdf';
 import './FloatingResumeButton.css';
 
 export default function FloatingResumeButton() {
-  const [downloaded, setDownloaded] = useState(false);
+  const [opening, setOpening] = useState(false);
 
   const handleClick = () => {
-    setDownloaded(true);
-    setTimeout(() => setDownloaded(false), 3000);
+    setOpening(true);
+    setTimeout(() => setOpening(false), 2500);
   };
 
   return (
     <div className="floating-resume-wrapper">
       <a
         href={resumePdf}
-        download="Sajin_R_Resume.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
         onClick={handleClick}
         className="floating-resume-btn"
-        aria-label="Download Sajin R Resume PDF"
-        title="Download Resume (PDF)"
+        aria-label="View and Download Sajin R Resume PDF"
+        title="View Resume (PDF)"
       >
         {/* Animated Ambient Pulse Ring */}
         <span className="floating-pulse-ring"></span>
@@ -42,7 +43,7 @@ export default function FloatingResumeButton() {
         {/* Hover Tooltip Capsule */}
         <div className="floating-resume-tooltip">
           <span className="tooltip-dot">●</span>
-          <span className="tooltip-text">{downloaded ? 'DOWNLOADING...' : 'DOWNLOAD RESUME (PDF)'}</span>
+          <span className="tooltip-text">{opening ? 'OPENING RESUME...' : 'VIEW RESUME (PDF)'}</span>
         </div>
       </a>
     </div>
