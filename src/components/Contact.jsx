@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
-import { 
-  Mail, 
-  MapPin, 
-  Phone, 
-  ArrowUpRight, 
-  CheckCircle2, 
-  Copy, 
-  Check, 
+import React, { useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
+import {
+  Mail,
+  MapPin,
+  Phone,
+  ArrowUpRight,
+  CheckCircle2,
+  AlertCircle,
+  X,
   Briefcase,
   ChevronDown,
   Send,
   Sparkles
 } from 'lucide-react';
 import './Contact.css';
+
+// EmailJS Configuration from Vite environment variables (No hardcoded credentials)
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+// Check that environment variables exist and log clear console errors if missing
+if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+  console.error(
+    'EmailJS Configuration Error: Missing environment variables. Please ensure VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY are defined in .env.'
+  );
+}
 
 export default function Contact({ currentTheme = 'red' }) {
   const [formData, setFormData] = useState({
@@ -22,48 +35,107 @@ export default function Contact({ currentTheme = 'red' }) {
     budgetRange: 'Open / Flexible for Discussion',
     message: ''
   });
-  const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [notification, setNotification] = useState(null); // { type: 'success' | 'error', message: string }
   const GMAIL_COMPOSE_URL = 'https://mail.google.com/mail/?view=cm&fs=1&to=sajin0904@gmail.com&su=Inquiry%20from%20Portfolio&body=Hi%20Sajin,%0D%0A%0D%0AI%20came%20across%20your%20portfolio...';
 
+  // Initialize EmailJS with public key if available
+  useEffect(() => {
+    if (EMAILJS_PUBLIC_KEY) {
+      try {
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      } catch (err) {
+        console.error('EmailJS initialization failed:', err);
+      }
+    }
+  }, []);
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value
-    });
-    if (errorMessage) setErrorMessage('');
+    }));
+    if (notification) setNotification(null);
+  };
+
+  // Form field validation
+  const validateForm = () => {
+    if (!formData.name || !formData.name.trim()) {
+      return 'Name is required.';
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !formData.email.trim()) {
+      return 'Email is required.';
+    }
+    if (!emailRegex.test(formData.email.trim())) {
+      return 'Please enter a valid email address.';
+    }
+    if (!formData.inquiryType || !formData.inquiryType.trim()) {
+      return 'Inquiry / Service Type is required.';
+    }
+    if (!formData.budgetRange || !formData.budgetRange.trim()) {
+      return 'Expected CTC / Budget Scope is required.';
+    }
+    if (!formData.message || !formData.message.trim()) {
+      return 'Message is required.';
+    }
+    return null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setErrorMessage('');
-    
-    try {
-      // Send real email directly to sajin0904@gmail.com
-      const response = await fetch('https://formsubmit.co/ajax/sajin0904@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          _subject: `New Portfolio Inquiry from ${formData.name} (${formData.inquiryType})`,
-          _template: 'table',
-          _captcha: 'false',
-          'Client Name': formData.name,
-          'Client Email': formData.email,
-          'Inquiry / Role Type': formData.inquiryType,
-          'Expected CTC / Budget': formData.budgetRange,
-          'Message Details': formData.message
-        })
+
+    // Prevent duplicate submission from rapid clicking
+    if (isSubmitting) return;
+
+    // Validate all required fields
+    const validationError = validateForm();
+    if (validationError) {
+      setNotification({
+        type: 'error',
+        message: validationError
       });
+      return;
+    }
 
-      const data = await response.json();
+    // Verify environment variables exist before sending
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      console.error('EmailJS Error: Cannot submit because environment variables are missing in .env');
+      setNotification({
+        type: 'error',
+        message: 'Unable to send your message. Please try again.'
+      });
+      return;
+    }
 
-      if (response.ok && data.success !== 'false') {
-        setSubmitted(true);
+    setIsSubmitting(true);
+    setNotification(null);
+
+    // Exact EmailJS template variables
+    const templateParams = {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      inquiry_type: formData.inquiryType,
+      budget: formData.budgetRange,
+      message: formData.message.trim()
+    };
+
+    try {
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      if (response.status === 200 || response.text === 'OK') {
+        // Show success notification
+        setNotification({
+          type: 'success',
+          message: "Message sent successfully! I'll get back to you soon."
+        });
+
+        // Clear all form fields
         setFormData({
           name: '',
           email: '',
@@ -71,16 +143,17 @@ export default function Contact({ currentTheme = 'red' }) {
           budgetRange: 'Open / Flexible for Discussion',
           message: ''
         });
-        setTimeout(() => setSubmitted(false), 9000);
       } else {
-        throw new Error(data.message || 'Submission failed. Opening direct email...');
+        throw new Error(response.text || 'Unexpected EmailJS status response');
       }
     } catch (err) {
-      console.warn('Form submission encountered an issue, opening Gmail compose fallback:', err);
-      // Fallback: Open pre-filled Gmail compose directly to sajin0904@gmail.com
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=sajin0904@gmail.com&su=${encodeURIComponent(`Inquiry: ${formData.inquiryType} from ${formData.name}`)}&body=${encodeURIComponent(`Hi Sajin,\n\nName: ${formData.name}\nEmail: ${formData.email}\nInquiry Type: ${formData.inquiryType}\nExpected CTC / Scope: ${formData.budgetRange}\n\nMessage:\n${formData.message}`)}`;
-      window.open(gmailUrl, '_blank');
-      setSubmitted(true);
+      // Technical log for debugging
+      console.error('EmailJS submission error:', err);
+      // Friendly user-facing notification; keep entered data intact
+      setNotification({
+        type: 'error',
+        message: 'Unable to send your message. Please try again.'
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -88,7 +161,7 @@ export default function Contact({ currentTheme = 'red' }) {
 
   return (
     <section id="contact" className="ref-contact-section">
-      
+
       {/* Top Ambient Glow */}
       <div className="ref-top-spotlight"></div>
 
@@ -109,10 +182,10 @@ export default function Contact({ currentTheme = 'red' }) {
       <div className="ref-bg-watermark">CONTACT</div>
 
       <div className="ref-contact-container">
-        
+
         {/* Left Column: Header & Direct Info Cards */}
         <div className="ref-left-col scroll-reveal-left">
-          
+
           <div className="ref-heading-header">
             <div className="contact-header-top-row">
               <div className="contact-header-left-wrap">
@@ -122,7 +195,7 @@ export default function Contact({ currentTheme = 'red' }) {
                   <span className="ref-title-red">TOUCH</span>
                 </h2>
               </div>
-              
+
               {/* Right Header Widget: 04 Watermark & Rotating Badge */}
               <div className="section-header-right contact-badge-widget">
                 <div className="section-watermark-num">04</div>
@@ -154,10 +227,10 @@ export default function Contact({ currentTheme = 'red' }) {
 
           {/* Action Cards Stack */}
           <div className="ref-action-cards-stack">
-            
+
             {/* Email us - Redirects directly to Gmail */}
-            <a 
-              href={GMAIL_COMPOSE_URL} 
+            <a
+              href={GMAIL_COMPOSE_URL}
               target="_blank"
               rel="noreferrer"
               className="ref-action-card"
@@ -175,8 +248,8 @@ export default function Contact({ currentTheme = 'red' }) {
             </a>
 
             {/* Call us */}
-            <a 
-              href="tel:+919585123409" 
+            <a
+              href="tel:+919585123409"
               className="ref-action-card"
             >
               <div className="ref-card-icon-box phone-box">
@@ -214,10 +287,10 @@ export default function Contact({ currentTheme = 'red' }) {
                 <span className="ref-card-title">Our location</span>
                 <span className="ref-card-val">Nagercoil, Tamil Nadu, India (Open to Relocation)</span>
               </div>
-              <a 
-                href="https://linkedin.com/in/sajinr" 
-                target="_blank" 
-                rel="noreferrer" 
+              <a
+                href="https://linkedin.com/in/sajinr"
+                target="_blank"
+                rel="noreferrer"
                 className="ref-card-arrow-pill"
                 title="View LinkedIn Profile"
               >
@@ -232,134 +305,141 @@ export default function Contact({ currentTheme = 'red' }) {
         {/* Right Column: One-by-One Clean Stacked Form */}
         <div className="ref-right-col scroll-reveal-right delay-1">
           <div className="ref-form-wrapper">
-            
-            {submitted ? (
-              <div className="ref-success-state">
-                <div className="ref-success-icon-wrap">
-                  <CheckCircle2 size={46} color="#22c55e" />
-                </div>
-                <h3 className="ref-success-title">Inquiry Submitted Successfully</h3>
-                <p className="ref-success-desc">
-                  Thank you for reaching out! Sajin has received your details and will get back to you within 24 hours.
-                </p>
-                <button 
-                  className="ref-success-dismiss-btn"
-                  onClick={() => setSubmitted(false)}
-                >
-                  Send Another Inquiry
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="ref-contact-form">
-                
-                {/* 1. Name */}
-                <div className="ref-input-group">
-                  <label htmlFor="ref-name" className="ref-field-label">Name</label>
-                  <input
-                    type="text"
-                    id="ref-name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    placeholder="e.g. John Doe / Tech Recruiter"
-                    className="ref-text-input"
-                  />
-                </div>
+            <form onSubmit={handleSubmit} className="ref-contact-form">
 
-                {/* 2. Email */}
-                <div className="ref-input-group">
-                  <label htmlFor="ref-email" className="ref-field-label">Email</label>
-                  <input
-                    type="email"
-                    id="ref-email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    placeholder="john@example.com"
-                    className="ref-text-input"
-                  />
-                </div>
-
-                {/* 3. Inquiry / Service Type */}
-                <div className="ref-input-group">
-                  <label htmlFor="ref-inquiry" className="ref-field-label">Inquiry / Service Type</label>
-                  <div className="ref-select-wrapper">
-                    <select
-                      id="ref-inquiry"
-                      name="inquiryType"
-                      value={formData.inquiryType}
-                      onChange={handleChange}
-                      className="ref-text-input ref-select-input"
-                    >
-                      <option value="Full-Time MERN Developer Role">Full-Time MERN Developer Role</option>
-                      <option value="Custom Portfolio Website">Custom Portfolio / Web App</option>
-                      <option value="AI Assistant / LLM Automation">AI Assistant / Automation</option>
-                      <option value="Enterprise ERP / Billing Platform">Enterprise ERP / Billing</option>
-                      <option value="General Consultation / Other">General Consultation / Other</option>
-                    </select>
-                    <ChevronDown size={16} className="ref-select-icon" />
-                  </div>
-                </div>
-
-                {/* 4. Expected CTC / Budget */}
-                <div className="ref-input-group">
-                  <label htmlFor="ref-budget" className="ref-field-label">Expected CTC / Budget Scope</label>
-                  <div className="ref-select-wrapper">
-                    <select
-                      id="ref-budget"
-                      name="budgetRange"
-                      value={formData.budgetRange}
-                      onChange={handleChange}
-                      className="ref-text-input ref-select-input"
-                    >
-                      <option value="Open / Flexible for Discussion">Open / Flexible for Discussion</option>
-                      <option value="Standard Full-Time CTC Package">Standard Full-Time CTC Discussion</option>
-                      <option value="Competitive Market Package">Competitive Market Package</option>
-                      <option value="Fixed Freelance Scope">Fixed Project Budget</option>
-                    </select>
-                    <ChevronDown size={16} className="ref-select-icon" />
-                  </div>
-                </div>
-
-                {/* 5. Message */}
-                <div className="ref-input-group">
-                  <label htmlFor="ref-message" className="ref-field-label">Message</label>
-                  <textarea
-                    id="ref-message"
-                    name="message"
-                    rows={4}
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    placeholder="Tell me about the role, project requirements, timeline, or questions..."
-                    className="ref-text-input ref-textarea"
-                  ></textarea>
-                </div>
-
-                {/* 6. Submit Button */}
-                <button 
-                  type="submit" 
-                  className="ref-submit-btn"
+              {/* 1. Name */}
+              <div className="ref-input-group">
+                <label htmlFor="ref-name" className="ref-field-label">Name</label>
+                <input
+                  type="text"
+                  id="ref-name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="e.g. John Doe / Tech Recruiter"
+                  className="ref-text-input"
                   disabled={isSubmitting}
+                />
+              </div>
+
+              {/* 2. Email */}
+              <div className="ref-input-group">
+                <label htmlFor="ref-email" className="ref-field-label">Email</label>
+                <input
+                  type="email"
+                  id="ref-email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="john@example.com"
+                  className="ref-text-input"
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              {/* 3. Inquiry / Service Type */}
+              <div className="ref-input-group">
+                <label htmlFor="ref-inquiry" className="ref-field-label">Inquiry / Service Type</label>
+                <div className="ref-select-wrapper">
+                  <select
+                    id="ref-inquiry"
+                    name="inquiryType"
+                    value={formData.inquiryType}
+                    onChange={handleChange}
+                    className="ref-text-input ref-select-input"
+                    disabled={isSubmitting}
+                  >
+                    <option value="Full-Time MERN Developer Role">Full-Time MERN Developer Role</option>
+                    <option value="Custom Portfolio Website">Custom Portfolio / Web App</option>
+                    <option value="AI Assistant / LLM Automation">AI Assistant / Automation</option>
+                    <option value="Enterprise ERP / Billing Platform">Enterprise ERP / Billing</option>
+                    <option value="General Consultation / Other">General Consultation / Other</option>
+                  </select>
+                  <ChevronDown size={16} className="ref-select-icon" />
+                </div>
+              </div>
+
+              {/* 4. Expected CTC / Budget */}
+              <div className="ref-input-group">
+                <label htmlFor="ref-budget" className="ref-field-label">Expected CTC / Budget Scope</label>
+                <div className="ref-select-wrapper">
+                  <select
+                    id="ref-budget"
+                    name="budgetRange"
+                    value={formData.budgetRange}
+                    onChange={handleChange}
+                    className="ref-text-input ref-select-input"
+                    disabled={isSubmitting}
+                  >
+                    <option value="Open / Flexible for Discussion">Open / Flexible for Discussion</option>
+                    <option value="Standard Full-Time CTC Package">Standard Full-Time CTC Discussion</option>
+                    <option value="Competitive Market Package">Competitive Market Package</option>
+                    <option value="Fixed Freelance Scope">Fixed Project Budget</option>
+                  </select>
+                  <ChevronDown size={16} className="ref-select-icon" />
+                </div>
+              </div>
+
+              {/* 5. Message */}
+              <div className="ref-input-group">
+                <label htmlFor="ref-message" className="ref-field-label">Message</label>
+                <textarea
+                  id="ref-message"
+                  name="message"
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Tell me about the role, project requirements, timeline, or questions..."
+                  className="ref-text-input ref-textarea"
+                  disabled={isSubmitting}
+                ></textarea>
+              </div>
+
+              {/* Notification Banner / Toast */}
+              {notification && (
+                <div
+                  className={`ref-form-notification ${notification.type === 'success' ? 'ref-notification-success' : 'ref-notification-error'}`}
+                  role="alert"
                 >
-                  {isSubmitting ? (
-                    <span className="ref-btn-loading">
-                      <span className="btn-spinner"></span>
-                      <span>Submitting...</span>
-                    </span>
-                  ) : (
-                    <>
-                      <span>Submit</span>
-                      <Send size={15} />
-                    </>
-                  )}
-                </button>
+                  <div className="ref-notification-icon">
+                    {notification.type === 'success' ? (
+                      <CheckCircle2 size={18} />
+                    ) : (
+                      <AlertCircle size={18} />
+                    )}
+                  </div>
+                  <span className="ref-notification-text">{notification.message}</span>
+                  <button
+                    type="button"
+                    className="ref-notification-close"
+                    onClick={() => setNotification(null)}
+                    aria-label="Dismiss notification"
+                  >
+                    <X size={15} />
+                  </button>
+                </div>
+              )}
 
-              </form>
-            )}
+              {/* 6. Submit Button */}
+              <button
+                type="submit"
+                className="ref-submit-btn"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="ref-btn-loading">
+                    <span className="btn-spinner"></span>
+                    <span>Sending message...</span>
+                  </span>
+                ) : (
+                  <>
+                    <span>Submit</span>
+                    <Send size={15} />
+                  </>
+                )}
+              </button>
 
+            </form>
           </div>
         </div>
 
